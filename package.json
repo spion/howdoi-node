@@ -23,5 +23,6 @@
     "search"
   ],
   "author": "spion",
-  "license": "BSD"
+  "license": "BSD",
+  "readmeFilename": "README.md"
 }
