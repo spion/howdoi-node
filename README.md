@@ -4,10 +4,16 @@ Ask your computer how to do things from the command line.
 
 Programming, server administration, system administration, general PC/Mac questions, math, even music  all stackexchange sites supported.
 
-Example:
+Inspired by the original [howdoi](https://github.com/gleitz/howdoi) 
+
+Smaller, more full-featured, packed with extra options and not limited to code.
+
+# Usage
 
     % howdoi learn to play bach
-    What a great question! I am currently working my way through the second book, so I have more specific opinions about that. Of those I've learnt from the first book, I found the following to be less tricky:
+    What a great question! I am currently working my way through the second book, 
+    so I have more specific opinions about that. Of those I've learnt from the first book, 
+    I found the following to be less tricky:
 
 
     The C major prelude, of course. Curtis is right about the difficulty of the fugue, however.
@@ -16,12 +22,6 @@ Example:
     [snip]
     ...
     http://music.stackexchange.com/questions/551/bachs-well-tempered-clavier-order (1/5)
-
-
-
-The node version of [howdoi](https://github.com/gleitz/howdoi).
-Smaller, more full-featured, packed with extra options and not limited to code.
-
 
 ## Extra options
 
