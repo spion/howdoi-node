@@ -10,13 +10,15 @@ var args = require('optimist')
             'askubuntu.com', '*.stackexchange.com'],
         result: 1,
         answer: 1,
-        code: false
+        code: false, 
+        links: false
     })
     .describe('engine', 'google or duck')
     .describe('site', 'comma separated stackexchange sites')
     .describe('result', 'which search result')
     .describe('answer', 'which answer')
     .describe('code', 'extract only code')
+    .describe('links', 'show all links')
     .demand(1)
     .argv;
 
@@ -34,25 +36,36 @@ else if (args.engine == 'google') {
     var links_selector = '.r a.l';
 }
 
-request(url, function(e, res, body) {
+request(url, function(e, r, body) {
+    var res = args.result - 1, ans = args.answer - 1;
+
     var $ = cheerio.load(body),
         links = $(links_selector).map(function(i, el) { return el.attribs.href; });
     
-    if (!links[args.result]) 
+    if (!args.code && args.links) for (var k = 0; k < res && links[k]; ++k)
+        console.log("#" + (k+1), links[k]);
+    if (!links[res]) 
         console.log("No more results");
-    else request(links[args.result], function(e, res, body) {
+    else request(links[args.result - 1], function(e, r, body) {
         var $ = cheerio.load(body);
         var answers = $('.post-text').map(function(i, el) { 
             if (args.code) return $(el).find('pre').text();
             return $(el).text(); 
         });
-        if (!answers.length) 
-            console.log("Result has no answers. Try using --result 2 etc");
-        else if (!answers[args.answer]) 
+        if (args.links) console.log("#" + (res+1), links[res], '@', (ans+1) + '/' + answers.length);
+        if (!answers.length) {
+            console.log("Result has no answers. Try some other results e.g. --result 2");
+            args.links = true;
+        } 
+        else if (!answers[ans]) {
             console.log("No such answer. Try using --result 2 etc");
+            args.links = true;
+        }
         else  
-            console.log(answers[args.answer]);
-        if (!args.code) 
-            console.log(links[args.result], '(' + args.answer + "/" + answers.length + ')');
+            console.log(answers[ans]);
+        if (!args.code && !args.links) console.log("#" + (res+1), links[res], '@', (ans+1) + '/' + answers.length);
+
+        if (!args.code && args.links) for (var k = res + 1; links[k]; ++k) 
+            console.log("#" + (k+1), links[k]);
     });  
 });
