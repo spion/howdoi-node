@@ -30,5 +30,6 @@ Smaller, more full-featured, packed with extra options and not limited to code.
 * --result  which search result                  [default: 1]
 * --answer  which answer                         [default: 1]
 * --code    extract only code                    [default: false]
+* --links   show all links                       [default: false]
 
 
