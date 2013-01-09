@@ -48,7 +48,7 @@ request(url, function(e, r, body) {
         console.log("No more results");
     else request(links[args.result - 1], function(e, r, body) {
         var $ = cheerio.load(body);
-        var answers = $('.post-text').map(function(i, el) { 
+        var answers = $('.answer .post-text').map(function(i, el) { 
             if (args.code) return $(el).find('pre').text();
             return $(el).text(); 
         });
