@@ -32,4 +32,7 @@ Smaller, more full-featured, packed with extra options and not limited to code.
 * --code    extract only code                    [default: false]
 * --links   show all links                       [default: false]
 
+# Env variables
+
+`HTTP_PROXY` - URL of proxy to use when making requests
 
