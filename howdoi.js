@@ -23,7 +23,7 @@ var args = require('optimist')
     .argv;
 
 
-var query = ' ' + args._.join(' ').replace('^','-');
+var query = ' ' + args._.join(' ').replace(/\^/g,'-');
 
 if (args.engine == 'duck') {
     var url = 'http://duckduckgo.com/html?q=' + encodeURIComponent(
