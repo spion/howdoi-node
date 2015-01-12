@@ -25,11 +25,12 @@ Smaller, more full-featured, packed with extra options and not limited to code.
 
 ## Extra options
 
-* --engine  google or duck                       [default: "google"]
-* --site    comma separated stackexchange sites  [default: ["stackoverflow.com","serverfault.com","superuser.com","askubuntu.com","\*.stackexchange.com"]]
-* --result  which search result                  [default: 1]
-* --answer  which answer                         [default: 1]
-* --code    extract only code                    [default: false]
-* --links   show all links                       [default: false]
+* --engine   google or duck                       [default: "google"]
+* --site     comma separated stackexchange sites  [default: ["stackoverflow.com","serverfault.com","superuser.com","askubuntu.com","\*.stackexchange.com"]]
+* --result   which search result                  [default: 1]
+* --answer   which answer                         [default: 1]
+* --code     extract only code                    [default: false]
+* --links    show all links                       [default: false]
+* --no-color show response in text plain          [default: colored]
 
 
