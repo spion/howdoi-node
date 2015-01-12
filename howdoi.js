@@ -7,8 +7,8 @@ var clc = require('cli-color');
 var args = require('optimist')
     .default({
         engine: 'google',
-        site: ['stackoverflow.com'/*, 'serverfault.com', 'superuser.com',
-            'askubuntu.com', '*.stackexchange.com'*/],
+        site: ['stackoverflow.com', 'serverfault.com', 'superuser.com',
+            'askubuntu.com', '*.stackexchange.com'],
         result: 1,
         answer: 1,
         code: false,
