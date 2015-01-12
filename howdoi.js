@@ -78,8 +78,13 @@ request(url, function(e, r, body) {
             if (args.code) {
                 return aCode($(el).find('pre').text());
             }
-            var code = $(el).find('pre').text();
-            return $(el).text().replace(code, aCode(code));
+            var code = $(el).find('pre');
+            var textAns = $(el).text();
+            for(var o = 0; o < code.length; o++) {
+                var codeText = $(code[o]).text();
+                textAns = textAns.replace( codeText, aCode(codeText) );
+            }
+            return textAns;
         });
 
         if (args.links) {
