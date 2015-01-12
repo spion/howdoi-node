@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 
 var cheerio = require('cheerio');
-    request = require('request');
+var request = require('request');
+var clc = require('cli-color');
 
 var args = require('optimist')
     .default({
@@ -19,6 +20,7 @@ var args = require('optimist')
     .describe('answer', 'which answer')
     .describe('code', 'extract only code')
     .describe('links', 'show all links')
+    .describe('color', 'show results in plain text (default no-color)')
     .demand(1)
     .argv;
 
@@ -36,6 +38,24 @@ else if (args.engine == 'google') {
     var links_selector = '.r a.l';
 }
 
+var ansiTrim = require('cli-color/trim');
+var aError = clc.red;
+var aPlain = clc.white;
+var aCode = clc.green;
+var aLink = clc.black.bold;
+
+var aLog = function() {
+    var a = [];
+    for (var i = 0; i < arguments.length; i++) {
+        a.push( (typeof arguments[i] === 'string') ? ansiTrim( arguments[i] ) : arguments[i] );
+    }
+    console.log.apply(this, a);
+};
+
+if(args.color === true) {
+    aLog = console.log;
+}
+
 if(process.env.HTTP_PROXY) {
     request = request.defaults({"proxy": process.env.HTTP_PROXY});
 }
@@ -47,42 +67,48 @@ request(url, function(e, r, body) {
         links = $(links_selector).map(function(i, el) { return el.attribs.href; });
     
     if (!args.code && args.links) for (var k = 0; k < res && links[k]; ++k) {
-        console.log("#" + (k+1), links[k]);
+        aLog(aLink("#" + (k+1)), aLink(links[k]));
     }
     if (!links[res]) {
-        console.log("No more results");
+        aLog(aError("No results found"));
     }
     else request(links[args.result - 1], function(e, r, body) {
         var $ = cheerio.load(body);
         var answers = $('.answer .post-text').map(function(i, el) {
             if (args.code) {
-                return $(el).find('pre').text();
+                return aCode($(el).find('pre').text());
             }
-            return $(el).text();
+            var code = $(el).find('pre');
+            var textAns = $(el).text();
+            for(var o = 0; o < code.length; o++) {
+                var codeText = $(code[o]).text();
+                textAns = textAns.replace( codeText, aCode(codeText) );
+            }
+            return textAns;
         });
 
         if (args.links) {
-            console.log("#" + (res+1), links[res], '@', (ans+1) + '/' + answers.length);
+            aLog( aLink("#" + (res+1)), aLink(links[res]), aLink('@'), aLink((ans+1) + '/' + answers.length) );
         }
 
         if (!answers.length) {
-            console.log("Result has no answers. Try some other results e.g. --result 2");
+            aLog( aError("Result has no answers. Try some other results e.g. --result 2") );
             args.links = true;
         }
         else if (!answers[ans]) {
-            console.log("No such answer. Try using --result 2 etc");
+            aLog( aError("No such answer. Try using --result 2 etc") );
             args.links = true;
         }
         else {
-            console.log(answers[ans]);
+            aLog( answers[ans] );
         }
 
         if (!args.code && !args.links) {
-            console.log("#" + (res+1), links[res], '@', (ans+1) + '/' + answers.length);
+            aLog( aLink("#" + (res+1)), aLink(links[res]), aLink('@'), aLink((ans+1) + '/' + answers.length) );
         }
 
         if (!args.code && args.links) for (var k = res + 1; links[k]; ++k) {
-            console.log("#" + (k+1), links[k]);
+            aLog( aLink("#" + (k+1)), aLink(links[k]) );
         }
     });
 });

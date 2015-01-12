@@ -1,15 +1,16 @@
 {
   "name": "howdoi",
-  "version": "0.3.3",
+  "version": "0.4.3",
   "description": "Howdoi implementation in node.js with more options, more stackexchange sites and better text",
   "main": "howdoi.js",
   "bin": {
     "howdoi": "./howdoi.js"
   },
   "dependencies": {
+    "cheerio": "~0.10.5",
+    "cli-color": "^0.3.2",
     "optimist": "~0.3.5",
-    "request": "~2.12.0",
-    "cheerio": "~0.10.5"
+    "request": "~2.12.0"
   },
   "devDependencies": {},
   "scripts": {
