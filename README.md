@@ -31,6 +31,6 @@ Smaller, more full-featured, packed with extra options and not limited to code.
 * --answer   which answer                         [default: 1]
 * --code     extract only code                    [default: false]
 * --links    show all links                       [default: false]
-* --no-color show response in text plain          [default: colored]
+* --color    show response in ansi colored form   [default: false]
 
 

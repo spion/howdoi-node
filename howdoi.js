@@ -20,7 +20,7 @@ var args = require('optimist')
     .describe('answer', 'which answer')
     .describe('code', 'extract only code')
     .describe('links', 'show all links')
-    .describe('no-color', 'show results in plain text (default color)')
+    .describe('color', 'show results in plain text (default no-color)')
     .demand(1)
     .argv;
 
@@ -41,19 +41,19 @@ else if (args.engine == 'google') {
 var ansiTrim = require('cli-color/trim');
 var aError = clc.red;
 var aPlain = clc.white;
-var aCode = clc.green.bold;
+var aCode = clc.green;
 var aLink = clc.black.bold;
 
-var aLog = console.log;
+var aLog = function() {
+    var a = [];
+    for (var i = 0; i < arguments.length; i++) {
+        a.push( (typeof arguments[i] === 'string') ? ansiTrim( arguments[i] ) : arguments[i] );
+    }
+    console.log.apply(this, a);
+};
 
-if(args.color === false) {
-    aLog = function() {
-        var a = [];
-        for (var i = 0; i < arguments.length; i++) {
-            a.push( (typeof arguments[i] === 'string') ? ansiTrim( arguments[i] ) : arguments[i] );
-        }
-        console.log.apply(this, a);
-    };
+if(args.color === true) {
+    aLog = console.log;
 }
 
 if(process.env.HTTP_PROXY) {
